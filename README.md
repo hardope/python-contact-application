@@ -1,3 +1,13 @@
+# web-based-contact-application
+
+### Steps on installation
+* Download file
+* Unzip file
+* Save file to directory
+* Open command-line
+* make sure python is installed
+
+#### Description:
 This is a python command-line based contact application that enables you to store, search, delete, list and create contacts. This application uses python for operations and SQL database for storage. 
 
 ### phoneapp.py
