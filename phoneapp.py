@@ -28,7 +28,7 @@ class app(cmd.Cmd):
         list_names()
 
     def do_delete(self, line):
-        delete()
+        delete_contact(line)
 
     def emptyline(self):
         print()
@@ -129,8 +129,11 @@ def list_names():
 
     conn.commit()
 
-def delete_contact():
-    contact = input("Contact To Delete: ")
+def delete_contact(val):
+    if val != "":
+        contact = val
+    else:
+        contact = input("Contact To Delete: ")
     print("Checking Contact............")
 
     conn = sqlite3.connect("phonebook.db")
