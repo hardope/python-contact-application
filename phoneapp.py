@@ -113,8 +113,8 @@ def list_names():
     conn = sqlite3.connect("phonebook.db")
     cursor = conn.cursor()
 
-    cursor.execute("""SELECT * FROM contacts ORDER BY names""")
-    for row in (cursor.fetchall()):
+    names = query_db("SELECT * FROM contacts ORDER BY names")
+    for row in (names):
         a = 0
         for column in row:
             if a == 0:
@@ -126,8 +126,6 @@ def list_names():
             print(column)
             a+=1
         print("")
-
-    conn.commit()
 
 def delete_contact(val):
     if val != "":
@@ -151,6 +149,13 @@ def delete_contact(val):
 
     conn.commit()
     return
+
+def query_db(query):
+    conn = sqlite3.connect("phonebook.db")
+    cursor = conn.cursor()
+    cursor.execute(query)
+    conn.commit()
+    return cursor.fetchall()
 
 
 if __name__ == "__main__":
