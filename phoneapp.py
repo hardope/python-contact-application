@@ -10,7 +10,7 @@ class app(cmd.Cmd):
         return line.strip().lower()
 
     def do_create(self, line):
-        new_contact()
+        new_contact(line)
 
     def do_search(self, line):
         search_contacts(line)
@@ -73,26 +73,44 @@ def search_contacts(val):
 
     return
     
-def new_contact():
-    name = input("Name: ")
-    if name == "":
-        print("Invalid name")
-        return
+def new_contact(val):
+    try:
+        val = val.split(" ")
+        count = 0
+        my_dict = {}
+        for i in val:
+            count+=1
+            i = i.split("=")
+            my_dict[i[0].strip()] = i[1].strip()
+        assert count > 2
 
-    check = query_db(f"SELECT count(names) FROM contacts WHERE names LIKE '%{name}&'")
-    for row in(check):
-        for column in row:
-            if (int(column)) == 1:
+        name = my_dict["name"]
+        number = my_dict["number"]
+        email = my_dict["email"]
+
+        assert name != ""
+        assert number != ""
+        assert email != ""
+
+    except:
+        name = input("Name: ")
+        if name == "":
+            print("Invalid name")
+            return
+
+        number = input("Number: ")
+        if number == "":
+            print("Invalid Number")
+            return
+        email = input("E-mail: ")
+        if email == "":
+            print("Invalid E-Mail")
+            return
+
+    check = query_db(f"SELECT count(names) FROM contacts WHERE names == '{name}'")
+    if check[0][0] > 0:
                 print("Contact Existing.")
                 return
-    number = input("Number: ")
-    if number == "":
-        print("Invalid Number")
-        return
-    email = input("E-mail: ")
-    if email == "":
-        print("Invalid E-Mail")
-        return
 
     query_db(f"INSERT INTO contacts ('names', 'numbers', 'email') VALUES ('{name}', '{number}', '{email}')")
     print("Saved.\n")
@@ -126,13 +144,11 @@ def delete_contact(val):
     print("Checking Contact............")
 
     check = query_db(f"SELECT count(names) FROM contacts WHERE names LIKE '{contact}'")
-    for row in(check):
-        for column in row:
-            if (int(column)) == 1:
-                print("Found contact......Deleting...")
-            else:
-                print("Contact is not existing.")
-                return
+    if check[0][0] > 0:
+        print("Found contact......Deleting...")
+    else:
+        print("Contact is not existing.")
+        return
     query_db(f"DELETE FROM contacts WHERE names LIKE '{contact}'")
     print("Deleted.\n")
     return
