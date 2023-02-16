@@ -47,7 +47,7 @@ def search_contacts(val):
     if val != "":
         search = val
     else:
-        search = input("Search: ").strip()
+        search = input("Search Name: ").strip()
     a = 0
     b = 0
     print("")
