@@ -52,12 +52,8 @@ def search_contacts(val):
     b = 0
     print("")
     print("Searching............")
-    conn = sqlite3.connect("phonebook.db")
-    cursor = conn.cursor()
-    
-
-    cursor.execute(f"SELECT * FROM contacts WHERE names LIKE '%{search}%'")
-    for row in (cursor.fetchall()):
+    names = query_db(f"SELECT * FROM contacts WHERE names LIKE '%{search}%'")
+    for row in (names):
         for column in row:
             if a == 0:
                 print("Name: ",end="")
@@ -73,7 +69,6 @@ def search_contacts(val):
         print("")
     if b == 0:
         print("Not Found.\n")
-    conn.commit()
 
     return
     
