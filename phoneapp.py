@@ -4,6 +4,8 @@ import cmd
 
 class app(cmd.Cmd):
 
+    prompt = "~ $ "
+
     def precmd(self, line):
         return line.strip().lower()
 
@@ -11,7 +13,7 @@ class app(cmd.Cmd):
         new_contact()
 
     def do_search(self, line):
-        search_contacts()
+        search_contacts(line)
 
     def do_help(self, line):
         help()
@@ -28,6 +30,9 @@ class app(cmd.Cmd):
     def do_delete(self, line):
         delete()
 
+    def emptyline(self):
+        print()
+
 def help():
     print("")
     print("COMMANDS")
@@ -38,10 +43,13 @@ def help():
     print("Exit/Quit: To exit the app.\n")
 
 
-def search_contacts():
+def search_contacts(val):
+    if val != "":
+        search = val
+    else:
+        search = input("Search: ").strip()
     a = 0
     b = 0
-    search = input("Search: ").strip()
     print("")
     print("Searching............")
     conn = sqlite3.connect("phonebook.db")
