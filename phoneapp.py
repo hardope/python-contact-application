@@ -134,20 +134,16 @@ def delete_contact(val):
         contact = input("Contact To Delete: ")
     print("Checking Contact............")
 
-    conn = sqlite3.connect("phonebook.db")
-    cursor = conn.cursor()
-    cursor.execute(f"SELECT count(names) FROM contacts WHERE names LIKE '{contact}'")
-    for row in(cursor.fetchall()):
+    check = query_db(f"SELECT count(names) FROM contacts WHERE names LIKE '{contact}'")
+    for row in(check):
         for column in row:
             if (int(column)) == 1:
                 print("Found contact......Deleting...")
             else:
                 print("Contact is not existing.")
                 return
-    cursor.execute(f"DELETE FROM contacts WHERE names LIKE '{contact}'")
+    query_db(f"DELETE FROM contacts WHERE names LIKE '{contact}'")
     print("Deleted.\n")
-
-    conn.commit()
     return
 
 def query_db(query):
