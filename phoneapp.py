@@ -1,39 +1,41 @@
 import sqlite3
 import sys
+import cmd
 
-def main():
+class app(cmd.Cmd):
 
-    print("Note: Type help For User manual.")
-    while True:
-        action = input("Action: ")
-        if action.strip().lower() == 'search':
-            search_contacts()
-            print("")
+    def precmd(self, line):
+        return line.strip().lower()
 
-        if action.strip().lower() == 'help':
-            print("")
-            print("COMMANDS")
-            print("List: Display contact list.")
-            print("New: To create a new contact.")
-            print("Search: To search a contact.")
-            print("Delete: To delete a contact.")
-            print("Exit/Quit: To exit the app.\n")
+    def do_create(self, line):
+        new_contact()
 
-        if action.strip().lower() == 'new':
-            new_contact()
-            print("")
+    def do_search(self, line):
+        search_contacts()
 
-        if action.strip().lower() == 'exit' or action.strip().lower() == 'quit':
-            print("Closing...")
-            sys.exit()
+    def do_help(self, line):
+        help()
 
-        if action.strip().lower() == 'list':
-            list_names()
-            print("")
+    def do_exit(self, line):
+        sys.exit()
 
-        if action.strip().lower() == 'delete':
-            delete_contact()
-            print("")
+    def do_quit(self, line):
+        sys.exit()
+
+    def do_list(self, line):
+        list_names()
+
+    def do_delete(self, line):
+        delete()
+
+def help():
+    print("")
+    print("COMMANDS")
+    print("List: Display contact list.")
+    print("New: To create a new contact.")
+    print("Search: To search a contact.")
+    print("Delete: To delete a contact.")
+    print("Exit/Quit: To exit the app.\n")
 
 
 def search_contacts():
@@ -139,6 +141,6 @@ def delete_contact():
     conn.commit()
     return
 
-if __name__ == "__main__":
-    main()
 
+if __name__ == "__main__":
+    app().cmdloop()
