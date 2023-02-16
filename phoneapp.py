@@ -82,13 +82,9 @@ def new_contact():
     if name == "":
         print("Invalid name")
         return
-    cname = "contacts"
 
-    conn = sqlite3.connect("phonebook.db")
-    cursor = conn.cursor()
-
-    cursor.execute(f"SELECT count(names) FROM contacts WHERE names LIKE '%{name}&'")
-    for row in(cursor.fetchall()):
+    check = query_db(f"SELECT count(names) FROM contacts WHERE names LIKE '%{name}&'")
+    for row in(check):
         for column in row:
             if (int(column)) == 1:
                 print("Contact Existing.")
@@ -102,8 +98,7 @@ def new_contact():
         print("Invalid E-Mail")
         return
 
-    cursor.execute(f"INSERT INTO {cname} ('names', 'numbers', 'email') VALUES ('{name}', '{number}', '{email}')") 
-    conn.commit()
+    query_db(f"INSERT INTO contacts ('names', 'numbers', 'email') VALUES ('{name}', '{number}', '{email}')")
     print("Saved.\n")
     return
 
