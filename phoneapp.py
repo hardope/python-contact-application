@@ -39,7 +39,8 @@ def help():
     print("List: Display contact list.")
     print("New: To create a new contact.")
     print("Search: To search a contact.")
-    print("Delete: To delete a contact.")
+    print("Search <query>: To search a contact named query.")
+    print("Delete <query>: To delete a contact named query.")
     print("Exit/Quit: To exit the app.\n")
 
 
