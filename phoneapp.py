@@ -4,7 +4,7 @@ import cmd
 
 class app(cmd.Cmd):
 
-    prompt = "~ $ "
+    prompt = " ~ $ "
 
     def precmd(self, line):
         return line.strip().lower()
@@ -115,8 +115,6 @@ def new_contact(val):
     query_db(f"INSERT INTO contacts ('names', 'numbers', 'email') VALUES ('{name}', '{number}', '{email}')")
     print("Saved.\n")
     return
-
-
 
 def list_names():
     conn = sqlite3.connect("phonebook.db")
